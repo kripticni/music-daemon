@@ -29,6 +29,11 @@ mv config $HOME/.ncmpcpp/config
 
 sudo systemctl start mpd
 sudo systemctl --user start mpd.service
+sudo systemctl enable mpd
+sudo systemctl --user enable mpd.service
 
+echo "Starting the daemon and adding a cronjob for rebooting."
+nohup mpd &> $HOME/.mpd/error.log &
+(crontab -l 2>/dev/null; echo "@reboot nohup mpd &> $HOME/.mpd/error.log") | crontab -
 echo "Successfully setup, now removing this dir."
 rm -r ../music-daemon/
